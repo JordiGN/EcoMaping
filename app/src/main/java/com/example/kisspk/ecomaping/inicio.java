@@ -40,7 +40,10 @@ public class inicio extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
         lista=(ListView)findViewById(R.id.listView_lista);
         listita.add("Id, Área");
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        listita.add("1,Adminstrativa");
+        listita.add("2,Extraescolar");
+        listita.add("3,ISM");
+        /*requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,showURL,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -63,7 +66,7 @@ public class inicio extends AppCompatActivity {
                 System.out.append(error.getMessage());
             }
         });
-        requestQueue.add(jsonObjectRequest);
+        requestQueue.add(jsonObjectRequest);*/
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listita);
         lista.setAdapter(adapter);
