@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">EcoMaping</string>
+    <string name="sistemas">Sistemas</string>
+    <string name="txt_calidadaire">Calidad del Aire</string>
+    <string name="txt_rsu">RSU</string>
+    <string name="txt_consumoEA">Consumo E/A</string>
+    <string name="txt_acustica">Contaminación Acustica</string>
+    <string name="title_activity_mapa">mapa</string>
+    <string name="title_activity_mapa2">Map</string>
+    <string name="title_activity_mapatec">Map</string>
+
+</resources>
