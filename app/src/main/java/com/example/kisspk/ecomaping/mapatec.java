@@ -1,5 +1,6 @@
 package com.example.kisspk.ecomaping;
 
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -17,6 +18,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,16 +35,18 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
     String id;
     String nombre;
     String nom;
-    String lat;
-    String longi;
 
     String rsu;
     String aire;
-    String consumo;
-    String sonido ;
-
+    String agua;
+    String electricidad;
+    String sonido;
+    String[] p1;
+    String[] p2;
+    String[] p3;
+    String[] p4;
+    String color="Color.";
     RequestQueue requestQueue;
-    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,25 +62,34 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         nombre = datosevento[1];
         /*Toast.makeText(getApplicationContext(), "Manda " + nombre+" e "+id, Toast.LENGTH_LONG).show();*/
         /*String showURL="http://192.168.1.66:8080/wsecomapping/verreporte.php?idarea="+id;*/
-        String showURL="http://webcolima.com/wsecomapping/verreporte.php?idarea="+id;
+        Toast.makeText(getApplicationContext(), "Manda " + nombre+"id "+id,Toast.LENGTH_LONG).show();
 
+        String showURL="http://webcolima.com/wsecomapping/verreporte.php?idarea="+id;
+        /*Toast.makeText(getApplicationContext(), "URL " + showURL,Toast.LENGTH_LONG).show();
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(/*Request.Method.GET,*/ showURL,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, showURL,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray areas = response.getJSONArray("areas");
-                                JSONObject area = areas.getJSONObject(0);
-                                nom = area.getString("Nombre");
-                                lat = area.getString("Latitud");
-                                longi = area.getString("Longitud");
+                            for (int i = 0; i < areas.length(); i++) {
+                                JSONObject area = areas.getJSONObject(i);
 
                                 rsu = area.getString("RSU");
                                 aire = area.getString("Aire");
-                                consumo = area.getString("Consumo");
+                                agua = area.getString("Agua");
+                                electricidad = area.getString("Electricidad");
                                 sonido = area.getString("Sonido");
+
+                                p1=area.getString("P1").split(",");
+                                p2=area.getString("P2").split(",");
+                                p3=area.getString("P3").split(",");
+                                p4=area.getString("P4").split(",");
+                                color=color+area.getString("Estado");
+
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -85,17 +99,17 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
             public void onErrorResponse(VolleyError error) {
                 System.out.append(error.getMessage());
             }
-        })/*{
+        })*//*{
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("idarea", id);
                 return params;
-            }
-        }*/;
-        Toast.makeText(getApplicationContext(), "Manda " + nombre+","+rsu+","+aire+","+sonido+","+consumo,
-                Toast.LENGTH_LONG).show();
-        requestQueue.add(jsonObjectRequest);
+            }*//**//*
+        }*//*;
+        Toast.makeText(getApplicationContext(), "Datos punto 1 " + p1[0]+" , "+p1[1],Toast.LENGTH_LONG).show();
+
+        requestQueue.add(jsonObjectRequest);*/
     }
     /**
      * Manipulates the map once available.
@@ -116,9 +130,19 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         /*LatLng uno = new LatLng(Double.parseDouble(lat),Double.parseDouble(longi));*/
         LatLng uno = new LatLng(19.2622897,-103.7233931);
 
+       /*mMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(Double.parseDouble(p1[0]), Double.parseDouble(p1[1])),
+                        new LatLng(Double.parseDouble(p2[0]), Double.parseDouble(p2[1])),
+                        new LatLng(Double.parseDouble(p3[0]), Double.parseDouble(p3[1])),
+                        new LatLng(Double.parseDouble(p4[0]), Double.parseDouble(p4[1])))
+                .strokeColor(Color.RED)
+                .fillColor(Color.BLUE));*/
+
+
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno, 17);
         mMap.animateCamera(yourLocation);
         mMap.addMarker(new MarkerOptions().position(uno).title(nombre));
+
 
     }
 }

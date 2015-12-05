@@ -41,7 +41,7 @@ public class inicio extends AppCompatActivity {
         lista=(ListView)findViewById(R.id.listView_lista);
         listita.add("Id, Área");
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, showURL,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,showURL,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -67,6 +67,7 @@ public class inicio extends AppCompatActivity {
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listita);
         lista.setAdapter(adapter);
+
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
