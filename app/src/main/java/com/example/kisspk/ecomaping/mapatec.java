@@ -1,8 +1,12 @@
 package com.example.kisspk.ecomaping;
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,13 +29,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class mapatec extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    ODBC db;
+    List<String> item=null;
+
     String id;
     String nombre;
     String nom;
@@ -65,6 +74,18 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         Toast.makeText(getApplicationContext(), "Manda " + nombre+"id "+id,Toast.LENGTH_LONG).show();
 
         String showURL="http://webcolima.com/wsecomapping/verreporte.php?idarea="+id;
+
+        /*Cursor cur=db.VerReportes(id);
+        item=new ArrayList<String>();
+        if (cur.moveToFirst()){
+            do {
+                p1=cur.getString(cur.getColumnIndex("P1")).split(",");
+                p2=cur.getString(cur.getColumnIndex("P2")).split(",");
+                p3=cur.getString(cur.getColumnIndex("P3")).split(",");
+                p4=cur.getString(cur.getColumnIndex("P4")).split(",");
+            }while (cur.moveToNext());
+        }
+*/
         /*Toast.makeText(getApplicationContext(), "URL " + showURL,Toast.LENGTH_LONG).show();
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());

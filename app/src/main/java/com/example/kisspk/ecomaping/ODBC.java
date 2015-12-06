@@ -55,7 +55,7 @@ public class ODBC extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL
                 ("CREATE TABLE AREA (\n" +
-                        "Id_Area INT PRIMARY KEY AUTOINCREMENT,\n" +
+                        "Id_Area INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                         "Nombre TEXT,\n" +
                         "Ubicacion TEXT,\n" +
                         "Poblacion NUMBER,\n" +
@@ -66,7 +66,7 @@ public class ODBC extends SQLiteOpenHelper{
                         ")");
 
         db.execSQL("CREATE TABLE  REPORTE (\n" +
-                "        Id_Reporte NUMBER,\n" +
+                "        Id_Reporte INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "        IdArea NUMBER,\n" +
                 "        RSU NUMBER,\n" +
                 "        Aire NUMBER,\n" +
@@ -76,6 +76,9 @@ public class ODBC extends SQLiteOpenHelper{
                 "        Fecha TEXT,\n" +
                 "        Estado TEXT\n" +
                 "        )");
+
+        /*db.execSQL("ALTER TABLE AREA AUTO_INCREMENT = 1");
+        db.execSQL("ALTER TABLE REPORTE AUTO_INCREMENT = 1");*/
     }
     //Actualización de tabla
     @Override
@@ -83,6 +86,7 @@ public class ODBC extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS" + AREA);
         db.execSQL("DROP TABLE IF EXISTS" + REPORTE);
         onCreate(db);
+        //ActID(db);
 
     }
 
@@ -90,15 +94,21 @@ public class ODBC extends SQLiteOpenHelper{
         String renglon[]={ID_AREA,NOMBRE};
         Cursor c = this.getReadableDatabase().query(AREA, renglon, null, null, null, null, null);
         return c;
-    };
+    }
+
+    /*public Cursor VerReportes(String idArea){
+        String query = "SELECT * FROM AREA INNER JOIN REPORTE ON Id_Area = IdArea WHERE IdArea = idArea";
+        Cursor cr = this.getReadableDatabase().rawQuery(query, null);
+        return cr;
+    }*/
+
     //Metodos para las áreas
     //Metodo de inserción
 
-     public void InsertArea(int Id_Area,String Nombre, String Ubicacion,int Poblacion, String p1, String p2, String p3, String p4){
+     public void InsertArea(String Nombre, String Ubicacion,int Poblacion, String p1, String p2, String p3, String p4){
          ContentValues parametros = new ContentValues();
          SQLiteDatabase db = getWritableDatabase();
          if(db != null){
-             parametros.put( ID_AREA,Id_Area);
              parametros.put( NOMBRE,Nombre);
              parametros.put( UBUCACION,Ubicacion);
              parametros.put( POBLACION,Poblacion);
@@ -115,11 +125,10 @@ public class ODBC extends SQLiteOpenHelper{
         return i;
     }
 
-    public void InsertReporte(int Id_Reporte,int IdArea,int Rsu, int Aire, int Agua,int Electricidad, int Sonido,String Fecha, String EstadoReporte ){
+    public void InsertReporte(int IdArea,int Rsu, int Aire, int Agua,int Electricidad, int Sonido,String Fecha, String EstadoReporte ){
         ContentValues parametros = new ContentValues();
         SQLiteDatabase db = getWritableDatabase();
         if(db != null){
-            parametros.put(ID_REPORTE,Id_Reporte);
             parametros.put(IDAREA,IdArea);
             parametros.put(RSU,Rsu);
             parametros.put(AIRE,Aire);
@@ -134,7 +143,10 @@ public class ODBC extends SQLiteOpenHelper{
     public Integer BorrarDatosReporte(){//Tabla, where, parametros
         int i=this.getWritableDatabase().delete(AREA, ID_AREA + ">" + 0, null);
         return i;
-    }
+    };
+    /*public void ActID(SQLiteDatabase db){
+
+    }*/
 
     /*   public Integer ActualizarArea(String nombre, int poblacion){
         ContentValues parametros = new ContentValues();
@@ -186,10 +198,4 @@ public class ODBC extends SQLiteOpenHelper{
         int  i=this.getWritableDatabase().update(AREA, parametros, ID_AREA + "=" + area, null);
         return i;
     }*/
-
-
-    public void webservice_insert(String Nombre, String Apellido){
-
-    }
-
 }
