@@ -41,10 +41,10 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
     String agua;
     String electricidad;
     String sonido;
-    String[] p1;
-    String[] p2;
-    String[] p3;
-    String[] p4;
+    String[] p1="19.263170,-103.724068".split(",");
+    String[] p2="19.263152,-103.723703".split(",");
+    String[] p3="19.261874,-103.723708".split(",");
+    String[] p4="19.261971,-103.724105".split(",");
     String color="Color.";
     RequestQueue requestQueue;
 
@@ -130,13 +130,13 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         /*LatLng uno = new LatLng(Double.parseDouble(lat),Double.parseDouble(longi));*/
         LatLng uno = new LatLng(19.2622897,-103.7233931);
 
-       /*mMap.addPolygon(new PolygonOptions()
+       mMap.addPolygon(new PolygonOptions()
                 .add(new LatLng(Double.parseDouble(p1[0]), Double.parseDouble(p1[1])),
                         new LatLng(Double.parseDouble(p2[0]), Double.parseDouble(p2[1])),
                         new LatLng(Double.parseDouble(p3[0]), Double.parseDouble(p3[1])),
                         new LatLng(Double.parseDouble(p4[0]), Double.parseDouble(p4[1])))
                 .strokeColor(Color.RED)
-                .fillColor(Color.BLUE));*/
+                .fillColor(Color.BLUE));
 
 
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno, 17);
