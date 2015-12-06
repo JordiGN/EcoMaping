@@ -94,10 +94,11 @@ public class ODBC extends SQLiteOpenHelper{
     //Metodos para las áreas
     //Metodo de inserción
 
-     public void InsertArea(String Nombre, String Ubicacion,int Poblacion, String p1, String p2, String p3, String p4){
+     public void InsertArea(int Id_Area,String Nombre, String Ubicacion,int Poblacion, String p1, String p2, String p3, String p4){
          ContentValues parametros = new ContentValues();
          SQLiteDatabase db = getWritableDatabase();
          if(db != null){
+             parametros.put( ID_AREA,Id_Area);
              parametros.put( NOMBRE,Nombre);
              parametros.put( UBUCACION,Ubicacion);
              parametros.put( POBLACION,Poblacion);
@@ -114,10 +115,11 @@ public class ODBC extends SQLiteOpenHelper{
         return i;
     }
 
-    public void InsertReporte(int IdArea,int Rsu, int Aire, int Agua,int Electricidad, int Sonido,String Fecha, String EstadoReporte ){
+    public void InsertReporte(int Id_Reporte,int IdArea,int Rsu, int Aire, int Agua,int Electricidad, int Sonido,String Fecha, String EstadoReporte ){
         ContentValues parametros = new ContentValues();
         SQLiteDatabase db = getWritableDatabase();
         if(db != null){
+            parametros.put(ID_REPORTE,Id_Reporte);
             parametros.put(IDAREA,IdArea);
             parametros.put(RSU,Rsu);
             parametros.put(AIRE,Aire);
