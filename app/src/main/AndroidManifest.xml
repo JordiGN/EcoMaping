@@ -45,6 +45,8 @@
             android:name=".mapatec"
             android:label="@string/title_activity_mapatec" >
         </activity>
+        <activity android:name=".reporte" >
+        </activity>
     </application>
 
 </manifest>

@@ -38,30 +38,24 @@ import java.util.Map;
 public class mapatec extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+//Variable tipo OpenHelper de la base de datos
     ODBC db;
-    List<String> item=null;
-
+//Datos area seleccionada
     String id;
     String nombre;
-    String nom;
-
-    String rsu;
-    String aire;
-    String agua;
-    String electricidad;
-    String sonido;
-
-   /* String[] p1="19.263170,-103.724068".split(",");
-    String[] p2="19.263152,-103.723703".split(",");
-    String[] p3="19.261874,-103.723708".split(",");
-    String[] p4="19.261971,-103.724105".split(",");*/
-
+//Datos del poligono
     String[] p1;
     String[] p2;
     String[] p3;
     String[] p4;
     String[] ubicacion;
     String color;
+//Datos de los residos
+    String rsu;
+    String aire;
+    String agua;
+    String electricidad;
+    String sonido;
     RequestQueue requestQueue;
 
     @Override
@@ -74,17 +68,11 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         Bundle datos = this.getIntent().getExtras();
-        String[] datosevento = datos.getString("dato").split(",");
-        id=datosevento[0];
-        nombre = datosevento[1];
-        /*Toast.makeText(getApplicationContext(), "Manda " + nombre+" e "+id, Toast.LENGTH_LONG).show();*/
-        /*String showURL="http://192.168.1.66:8080/wsecomapping/verreporte.php?idarea="+id;*/
-
-        String showURL="http://webcolima.com/wsecomapping/verreporte.php?idarea="+id;
-
+        String[] datoarea = datos.getString("dato").split(",");
+        id=datoarea[0];
+        nombre = datoarea[1];
         db=new ODBC(this);
         Cursor cur=db.VerReportes(id);
-        item=new ArrayList<String>();
         if (cur.moveToFirst()){
             /*Toast.makeText(getApplicationContext(), "Entro al cursor " + cur.getString(0),Toast.LENGTH_LONG).show();*/
             do {
@@ -94,53 +82,14 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
                     p4=cur.getString(4).split(",");
                     ubicacion=cur.getString(5).split(",");
                     color=cur.getString(6);
+                    rsu=cur.getString(7);
+                    aire=cur.getString(8);
+                    agua=cur.getString(9);
+                    electricidad=cur.getString(10);
+                    sonido=cur.getString(11);
+
             }while (cur.moveToNext());
         }
-        /*Toast.makeText(getApplicationContext(), "URL " + showURL,Toast.LENGTH_LONG).show();
-
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, showURL,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray areas = response.getJSONArray("areas");
-                            for (int i = 0; i < areas.length(); i++) {
-                                JSONObject area = areas.getJSONObject(i);
-
-                                rsu = area.getString("RSU");
-                                aire = area.getString("Aire");
-                                agua = area.getString("Agua");
-                                electricidad = area.getString("Electricidad");
-                                sonido = area.getString("Sonido");
-
-                                p1=area.getString("P1").split(",");
-                                p2=area.getString("P2").split(",");
-                                p3=area.getString("P3").split(",");
-                                p4=area.getString("P4").split(",");
-                                color=color+area.getString("Estado");
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.append(error.getMessage());
-            }
-        })*//*{
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("idarea", id);
-                return params;
-            }*//**//*
-        }*//*;
-        Toast.makeText(getApplicationContext(), "Datos punto 1 " + p1[0]+" , "+p1[1],Toast.LENGTH_LONG).show();
-
-        requestQueue.add(jsonObjectRequest);*/
     }
     /**
      * Manipulates the map once available.
@@ -163,19 +112,40 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
 
 
         Toast.makeText(getApplicationContext(), "Estado Reporte "+color ,Toast.LENGTH_LONG).show();
-       mMap.addPolygon(new PolygonOptions()
+        Polygon polygon= mMap.addPolygon(new PolygonOptions()
                .add(new LatLng(Double.parseDouble(p1[0]), Double.parseDouble(p1[1])),
                        new LatLng(Double.parseDouble(p2[0]), Double.parseDouble(p2[1])),
                        new LatLng(Double.parseDouble(p3[0]), Double.parseDouble(p3[1])),
                        new LatLng(Double.parseDouble(p4[0]), Double.parseDouble(p4[1]))
                )
-               .strokeColor(Color.RED)
-               .fillColor(Color.BLUE));
+               /*.strokeColor(Color.RED)
+               .fillColor(Color.BLUE)*/);
 
+        switch(color) {
+            case "GREEN":
+                polygon.setStrokeColor(Color.GREEN);
+                polygon.setFillColor(Color.GREEN);
+                break;
+            case "YELLOW":
+                polygon.setStrokeColor(Color.YELLOW);
+                polygon.setFillColor(Color.YELLOW);
+                break;
+            case "RED":
+                polygon.setStrokeColor(Color.RED);
+                polygon.setFillColor(Color.RED);
+                break;
+            default:
+        }
 
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno,17);
         mMap.animateCamera(yourLocation);
-        mMap.addMarker(new MarkerOptions().position(uno).title(nombre));
+        mMap.addMarker(new MarkerOptions().position(uno).title(nombre)
+                .snippet("RSU: "+rsu+"\n"+
+                        "Aire: "+aire+"\n"+
+                        "Agua: " +agua+"\n"+
+                        "Electricidad: " + electricidad+"\n"+
+                        "Sonido: "+sonido)
+                );
 
 
     }
