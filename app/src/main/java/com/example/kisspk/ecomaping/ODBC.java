@@ -108,7 +108,7 @@ public class ODBC extends SQLiteOpenHelper{
         //String renglon[]={ID_AREA,P1,P2,P3,P4,UBUCACION,ESTATUS_REPORTE};
 
         Cursor c = this.getReadableDatabase().rawQuery("SELECT " + ID_AREA+","+P1+","+P2+","+P3+","+P4+","
-                        +UBUCACION+","+ESTATUS_REPORTE +","+RSU+","+AIRE+","+AGUA+","+ELECTRICIDAD+","+SONIDO+
+                        +UBUCACION+","+ESTATUS_REPORTE +","+RSU+","+AIRE+","+AGUA+","+ELECTRICIDAD+","+SONIDO+","+POBLACION+
                         " FROM " + AREA + " a INNER JOIN " + REPORTE + " r ON a.Id_Area=r.IdArea " +
                         " WHERE " + ID_AREA + "=?",
                 new String[]{idArea});

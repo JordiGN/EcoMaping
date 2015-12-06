@@ -1,26 +1,24 @@
 package com.example.kisspk.ecomaping;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -51,6 +49,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
     String[] ubicacion;
     String color;
 //Datos de los residos
+    String poblacion;
     String rsu;
     String aire;
     String agua;
@@ -87,6 +86,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
                     agua=cur.getString(9);
                     electricidad=cur.getString(10);
                     sonido=cur.getString(11);
+                    poblacion=cur.getString(12);
 
             }while (cur.moveToNext());
         }
@@ -140,13 +140,36 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno,17);
         mMap.animateCamera(yourLocation);
         mMap.addMarker(new MarkerOptions().position(uno).title(nombre)
-                .snippet("RSU: "+rsu+"\n"+
-                        "Aire: "+aire+"\n"+
-                        "Agua: " +agua+"\n"+
-                        "Electricidad: " + electricidad+"\n"+
-                        "Sonido: "+sonido)
-                );
+                        .snippet("Población: " + poblacion)
+        );
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                new AlertDialog.Builder(mapatec.this)
+                        .setTitle("Datos de área")
+                        .setMessage("RSU: " + rsu + "\n" +
+                                "Aire: " + aire + "\n" +
+                                "Agua: " + agua + "\n" +
+                                "Electricidad: " + electricidad + "\n" +
+                                "Sonido: " + sonido)
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(mapatec.this, inicio.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Ver Historial", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                 /*Intent intent = new Intent(mapatec.this, historial.class);
+                        intent.putExtra("id", String.valueOf(id));
+                        startActivity(intent);*/
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
 
+            }
+        });
 
     }
 }
