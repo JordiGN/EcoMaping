@@ -74,7 +74,7 @@ public class ODBC extends SQLiteOpenHelper{
                 "        Electricidad NUMBER,\n" +
                 "        Sonido NUMBER,\n" +
                 "        Fecha TEXT,\n" +
-                "        Estado TEXT\n" +
+                "        EstadoReporte TEXT\n" +
                 "        )");
     }
     //Actualización de tabla
@@ -91,23 +91,29 @@ public class ODBC extends SQLiteOpenHelper{
         Cursor c = this.getReadableDatabase().query(AREA, renglon, null, null, null, null, null);
         return c;
     }
+    /*Este funciona perfectamente
     public Cursor VerReportes(String idArea){
         String renglon[]={ID_AREA,P1,P2,P3,P4,UBUCACION};
         Cursor c = this.getReadableDatabase().query(AREA, renglon, ID_AREA+"=?",
                 new String[]{idArea}, null, null, null);
         return c;
-    }
-   /* public Cursor VerReportes(String idArea){
-        String renglon[]={ID_AREA,P1,P2,P3,P4,ESTATUS_REPORTE};
+    }*/
+    /*public Cursor VerReportes(String idArea){
+        String renglon[]={ID_AREA,P1,P2,P3,P4,UBUCACION,ESTATUS_REPORTE};
         Cursor c = this.getReadableDatabase().query(AREA+"INNER JOIN"+REPORTE+"ON Id_Area=IdArea", renglon, ID_AREA+"=?",
                 new String[]{idArea}, null, null, null);
         return c;
     }*/
-   /* public Cursor VerReportes(String idArea){
-        String query = "SELECT"+ID_AREA+","+P1+","+P2+","+P3+","+P4+"FROM AREA WHERE ID_AREA=?";
-        Cursor cr = this.getReadableDatabase().rawQuery(query, new String[]{idArea});
-        return cr;
-    }*/
+    public Cursor VerReportes(String idArea){
+        //String renglon[]={ID_AREA,P1,P2,P3,P4,UBUCACION,ESTATUS_REPORTE};
+
+        Cursor c = this.getReadableDatabase().rawQuery("SELECT " + ID_AREA+","+P1+","+P2+","+P3+","+P4+","+UBUCACION+","+ESTATUS_REPORTE +
+                        " FROM " + AREA + " a INNER JOIN " + REPORTE + " r ON a.Id_Area=r.IdArea " +
+                        " WHERE " + ID_AREA + "=?",
+                new String[]{idArea});
+        return c;
+    }
+
     //Metodos para las áreas
     //Metodo de inserción
 
@@ -144,7 +150,7 @@ public class ODBC extends SQLiteOpenHelper{
             parametros.put(FECHA,Fecha);
             parametros.put(ESTATUS_REPORTE,EstadoReporte);
         }
-        this.getWritableDatabase().insert(AREA, null, parametros);
+        this.getWritableDatabase().insert(REPORTE, null, parametros);
     };
     public Integer BorrarDatosReporte(){//Tabla, where, parametros
         int i=this.getWritableDatabase().delete(REPORTE, ID_REPORTE + ">" + 0, null);

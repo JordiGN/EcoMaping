@@ -61,7 +61,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
     String[] p3;
     String[] p4;
     String[] ubicacion;
-    String color="Color.";
+    String color;
     RequestQueue requestQueue;
 
     @Override
@@ -88,14 +88,12 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         if (cur.moveToFirst()){
             /*Toast.makeText(getApplicationContext(), "Entro al cursor " + cur.getString(0),Toast.LENGTH_LONG).show();*/
             do {
-                //if (cur.getString(cur.getColumnIndex("Id_Area"))==id)
-                //{
                     p1=cur.getString(1).split(",");
                     p2=cur.getString(2).split(",");
                     p3=cur.getString(3).split(",");
                     p4=cur.getString(4).split(",");
                     ubicacion=cur.getString(5).split(",");
-                //}
+                    color=cur.getString(6);
             }while (cur.moveToNext());
         }
         /*Toast.makeText(getApplicationContext(), "URL " + showURL,Toast.LENGTH_LONG).show();
@@ -163,6 +161,8 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         /*LatLng uno = new LatLng(Double.parseDouble(lat),Double.parseDouble(longi));*/
         LatLng uno = new LatLng(Double.parseDouble(ubicacion[0]), Double.parseDouble(ubicacion[1]));
 
+
+        Toast.makeText(getApplicationContext(), "Estado Reporte "+color ,Toast.LENGTH_LONG).show();
        mMap.addPolygon(new PolygonOptions()
                .add(new LatLng(Double.parseDouble(p1[0]), Double.parseDouble(p1[1])),
                        new LatLng(Double.parseDouble(p2[0]), Double.parseDouble(p2[1])),
