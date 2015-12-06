@@ -60,6 +60,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
     String[] p2;
     String[] p3;
     String[] p4;
+    String[] ubicacion;
     String color="Color.";
     RequestQueue requestQueue;
 
@@ -94,6 +95,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
                     p2=cur.getString(2).split(",");
                     p3=cur.getString(3).split(",");
                     p4=cur.getString(4).split(",");
+                    ubicacion=cur.getString(5).split(",");
                 //}
             }while (cur.moveToNext());
         }
@@ -160,15 +162,16 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
 
         /*LatLng sydney = new LatLng(-34, 151);*/
         /*LatLng uno = new LatLng(Double.parseDouble(lat),Double.parseDouble(longi));*/
-        LatLng uno = new LatLng(19.2622897,-103.7233931);
+        LatLng uno = new LatLng(Double.parseDouble(ubicacion[0]), Double.parseDouble(ubicacion[1]));
 
        mMap.addPolygon(new PolygonOptions()
-                .add(new LatLng(Double.parseDouble(p1[0]), Double.parseDouble(p1[1])),
-                        new LatLng(Double.parseDouble(p2[0]), Double.parseDouble(p2[1])),
-                        new LatLng(Double.parseDouble(p3[0]), Double.parseDouble(p3[1])),
-                        new LatLng(Double.parseDouble(p4[0]), Double.parseDouble(p4[1])))
-                .strokeColor(Color.RED)
-                .fillColor(Color.BLUE));
+               .add(new LatLng(Double.parseDouble(p1[0]), Double.parseDouble(p1[1])),
+                       new LatLng(Double.parseDouble(p2[0]), Double.parseDouble(p2[1])),
+                       new LatLng(Double.parseDouble(p4[0]), Double.parseDouble(p4[1])),
+                       new LatLng(Double.parseDouble(p3[0]), Double.parseDouble(p3[1]))
+               )
+               .strokeColor(Color.RED)
+               .fillColor(Color.BLUE));
 
 
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno,17);

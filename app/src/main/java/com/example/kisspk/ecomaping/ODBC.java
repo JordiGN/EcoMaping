@@ -92,7 +92,7 @@ public class ODBC extends SQLiteOpenHelper{
         return c;
     }
     public Cursor VerReportes(String idArea){
-        String renglon[]={ID_AREA,P1,P2,P3,P4};
+        String renglon[]={ID_AREA,P1,P2,P3,P4,UBUCACION};
         Cursor c = this.getReadableDatabase().query(AREA, renglon, ID_AREA+"=?",
                 new String[]{idArea}, null, null, null);
         return c;
