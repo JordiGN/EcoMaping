@@ -76,9 +76,6 @@ public class ODBC extends SQLiteOpenHelper{
                 "        Fecha TEXT,\n" +
                 "        Estado TEXT\n" +
                 "        )");
-
-        /*db.execSQL("ALTER TABLE AREA AUTO_INCREMENT = 1");
-        db.execSQL("ALTER TABLE REPORTE AUTO_INCREMENT = 1");*/
     }
     //Actualización de tabla
     @Override
@@ -86,7 +83,6 @@ public class ODBC extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS" + AREA);
         db.execSQL("DROP TABLE IF EXISTS" + REPORTE);
         onCreate(db);
-        //ActID(db);
 
     }
 
@@ -95,13 +91,17 @@ public class ODBC extends SQLiteOpenHelper{
         Cursor c = this.getReadableDatabase().query(AREA, renglon, null, null, null, null, null);
         return c;
     }
-
-    /*public Cursor VerReportes(String idArea){
-        String query = "SELECT * FROM AREA INNER JOIN REPORTE ON Id_Area = IdArea WHERE IdArea = idArea";
-        Cursor cr = this.getReadableDatabase().rawQuery(query, null);
+    public Cursor VerReportes(String idArea){
+        String renglon[]={ID_AREA,P1,P2,P3,P4,ESTATUS_REPORTE};
+        Cursor c = this.getReadableDatabase().query(AREA+"INNER JOIN"+REPORTE+"ON Id_Area=IdArea", renglon, ID_AREA+"=?",
+                new String[]{idArea}, null, null, null);
+        return c;
+    }
+   /* public Cursor VerReportes(String idArea){
+        String query = "SELECT"+ID_AREA+","+P1+","+P2+","+P3+","+P4+"FROM AREA WHERE ID_AREA=?";
+        Cursor cr = this.getReadableDatabase().rawQuery(query, new String[]{idArea});
         return cr;
     }*/
-
     //Metodos para las áreas
     //Metodo de inserción
 
@@ -141,14 +141,11 @@ public class ODBC extends SQLiteOpenHelper{
         this.getWritableDatabase().insert(AREA, null, parametros);
     };
     public Integer BorrarDatosReporte(){//Tabla, where, parametros
-        int i=this.getWritableDatabase().delete(AREA, ID_AREA + ">" + 0, null);
+        int i=this.getWritableDatabase().delete(REPORTE, ID_REPORTE + ">" + 0, null);
         return i;
     };
-    /*public void ActID(SQLiteDatabase db){
-
-    }*/
-
-    /*   public Integer ActualizarArea(String nombre, int poblacion){
+    /*
+        public Integer ActualizarArea(String nombre, int poblacion){
         ContentValues parametros = new ContentValues();
         //poner en el campo NOMBRe, loque se trae del parámetro nombre
         parametros.put(NOMBRE, nombre);
@@ -167,35 +164,6 @@ public class ODBC extends SQLiteOpenHelper{
         parametros.put(ESTATUS_AREA, 3);
         parametros.put("ENVIO", 0);
         int i=this.getWritableDatabase().delete(AREA, NOMBRE + "=" + nombre, null);
-        return i;
-    }
-
-    //Metodos para los reportes
-    //Metodo de inserción para los reportes
-    public void InsertReporte(int area, int rsu, int aire, int consumo,int sonido, String fecha ){
-        ContentValues parametros = new ContentValues();
-        parametros.put(IDAREA, area);
-        parametros.put(RSU,rsu);
-        parametros.put(CONSUMO,consumo);
-        parametros.put(SONIDO,sonido);
-        parametros.put(FECHA,fecha);
-        parametros.put(ESTATUS_REPORTE,1);
-        parametros.put("ENVIO",0);
-        this.getWritableDatabase().insert(AREA, null, parametros);
-    }
-
-    //Metodo para ectualizar datos
-    public Integer ActualizarReporte(int area, int rsu, int aire, int consumo,int sonido, String fecha ){
-        ContentValues parametros = new ContentValues();
-        parametros.put(IDAREA, area);
-        parametros.put(RSU,rsu);
-        parametros.put(CONSUMO,consumo);
-        parametros.put(SONIDO,sonido);
-        parametros.put(FECHA,fecha);
-        parametros.put(ESTATUS_REPORTE,2);
-        parametros.put("ENVIO",0);
-        //    Tabla, valor que insertas, where
-        int  i=this.getWritableDatabase().update(AREA, parametros, ID_AREA + "=" + area, null);
         return i;
     }*/
 }

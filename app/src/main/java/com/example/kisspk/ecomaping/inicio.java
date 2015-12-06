@@ -45,20 +45,6 @@ public class inicio extends AppCompatActivity {
         lista=(ListView)findViewById(R.id.listView_lista);
         listita.add("Id, Área");
         db=new ODBC(this);
-        db.BorrarDatosArea();
-        //db.BorrarDatosReporte();
-
-        db.InsertArea("Administrativa", "19.262586,-103.723911", 245, "19.263170,-103.724068", "19.263152,-103.723703", "19.261874,-103.723708", "19.261971,-103.724105");
-        db.InsertArea("Extraescolar", "19.262849,-103.723415", 52, "19.263450,-103.723675", "19.263429,-103.723106", "19.262301,-103.723663", "19.262282,-103.723148");
-        db.InsertArea("ISM", "19.261973,-103.723412", 450, "19.262305,-103.723696", "19.262286,-103.723152", "19.261577,-103.723723", "19.261491,-103.723121");
-        db.InsertArea("Laboratorios", "19.263650,-103.723023", 953, "19.263848,-103.724118", "19.263808,-103.722227", "19.263427,-103.724123", "19.263126,-103.722241");
-        db.InsertArea("Recursos Materiales", "19.262655,-103.722807", 240, "19.263126,-103.723080", "19.263097,-103.722053", "19.262147,-103.723096", "19.262155,-103.722214");
-        db.InsertArea("Sistemas", "19.261588,-103.722811", 356, "19.262136,-103.723104", "19.262145,-103.722347", "19.261066,-103.722638", "19.261116,-103.723152");
-
-       /* db.InsertReporte(2, 45, 654, 321, 456, 45, "2015-01-01", "YELLOW");
-        db.InsertReporte(5, 45, 200, 65, 45, 36, "2015-05-20", "RED");
-        db.InsertReporte(4, 85, 40, 654, 12, 46, "2015-11-02", "GREEN");
-        db.InsertReporte(3, 65, 965, 654, 65, 44, "2015-10-25", "YELLOW");*/
         verAreas();
 
         /*requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -72,6 +58,25 @@ public class inicio extends AppCompatActivity {
                                 JSONObject area = areas.getJSONObject(i);
                                 String id = area.getString("Id_Area");
                                 String nom = area.getString("Nombre");
+                                String ubi = area.getString("Ubicacion");
+                                String pob = area.getString("Poblacion");
+                                String p1 = area.getString("P1");
+                                String p2 = area.getString("P2");
+                                String p3 = area.getString("P3");
+                                String p4 = area.getString("P4");
+                                db.InsertArea("nom", "ubi", pob, "p1", "p2", "p3", "p4");
+
+                                String IdArea reporte.getString("IDAREA");
+                                String Rsu reporte.getString("RSU");
+                                String Aire reporte.getString("AIRE");
+                                String Agua reporte.getString("AGUA");
+                                String Electricidad reporte.getString("ELECTRICIDAD");
+                                String Sonido reporte.getString("SONIDO");
+                                String Fecha reporte.getString("FECHA");
+                                String EstadoReporte reporte.getString("ESTATUS_REPORTE");
+
+
+                                db.InsertReporte(2, 45, 654, 321, 456, 45, "2015-01-01", "YELLOW");
                                 listita.add(id+","+nom);
                             }
                         } catch (JSONException e) {
@@ -115,7 +120,6 @@ public class inicio extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
                 dato = lista.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), "Manda " + dato,Toast.LENGTH_LONG).show();
                 verArea(v);
             }
         });

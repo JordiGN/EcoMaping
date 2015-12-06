@@ -54,6 +54,11 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
     String[] p2="19.263152,-103.723703".split(",");
     String[] p3="19.261874,-103.723708".split(",");
     String[] p4="19.261971,-103.724105".split(",");
+
+    /*String[] p1;
+    String[] p2;
+    String[] p3;
+    String[] p4;*/
     String color="Color.";
     RequestQueue requestQueue;
 
@@ -65,27 +70,31 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         Bundle datos = this.getIntent().getExtras();
         String[] datosevento = datos.getString("dato").split(",");
         id=datosevento[0];
         nombre = datosevento[1];
         /*Toast.makeText(getApplicationContext(), "Manda " + nombre+" e "+id, Toast.LENGTH_LONG).show();*/
         /*String showURL="http://192.168.1.66:8080/wsecomapping/verreporte.php?idarea="+id;*/
-        Toast.makeText(getApplicationContext(), "Manda " + nombre+"id "+id,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Manda " + nombre+" id "+id,Toast.LENGTH_LONG).show();
 
         String showURL="http://webcolima.com/wsecomapping/verreporte.php?idarea="+id;
 
         /*Cursor cur=db.VerReportes(id);
         item=new ArrayList<String>();
         if (cur.moveToFirst()){
+            Toast.makeText(getApplicationContext(), "Entro al cursor " + cur.getString(cur.getColumnIndex("Id_Area")),Toast.LENGTH_LONG).show();
             do {
-                p1=cur.getString(cur.getColumnIndex("P1")).split(",");
-                p2=cur.getString(cur.getColumnIndex("P2")).split(",");
-                p3=cur.getString(cur.getColumnIndex("P3")).split(",");
-                p4=cur.getString(cur.getColumnIndex("P4")).split(",");
+                //if (cur.getString(cur.getColumnIndex("Id_Area"))==id)
+                //{
+                    p1=cur.getString(1).split(",");
+                    p2=cur.getString(2).split(",");
+                    p3=cur.getString(3).split(",");
+                    p4=cur.getString(4).split(",");
+                //}
             }while (cur.moveToNext());
-        }
-*/
+        }*/
         /*Toast.makeText(getApplicationContext(), "URL " + showURL,Toast.LENGTH_LONG).show();
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -160,7 +169,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
                 .fillColor(Color.BLUE));
 
 
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno, 17);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno,17);
         mMap.animateCamera(yourLocation);
         mMap.addMarker(new MarkerOptions().position(uno).title(nombre));
 
