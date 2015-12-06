@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +24,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class inicio extends AppCompatActivity {
@@ -45,8 +49,45 @@ public class inicio extends AppCompatActivity {
         lista=(ListView)findViewById(R.id.listView_lista);
         listita.add("Id, Área");
         db=new ODBC(this);
+        /*Date d = Calendar.getInstance().getTime(); // Current time
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Set your date format
+        String fecha = sdf.format(d); // Get Date String according to date format
 
+        ///String fecha= Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
+        Toast.makeText(this,"La fecha de hoy es: "+fecha,Toast.LENGTH_LONG).show();*/
         verAreas();
+
+
+    }
+    public void verAreas(){
+
+        Cursor cur=db.VerAreas();
+        item=new ArrayList<String>();
+        if (cur.moveToFirst()){
+            do {
+                listita.add(cur.getString(0)+","+cur.getString(1));
+            }while (cur.moveToNext());
+        }
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listita);
+        lista.setAdapter(adapter);
+
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
+                dato = lista.getItemAtPosition(position).toString();
+                verArea(v);
+            }
+        });
+    };
+    public void verArea(View v){
+        Intent verarea=new Intent(this,mapatec.class);
+        verarea.putExtra("dato", String.valueOf(dato));
+        verarea.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(verarea);
+    }
+    public void Actualizar(View v){
+Toast.makeText(getApplicationContext(), "DATOS AGREGADOS CON ÉXITO",Toast.LENGTH_LONG).show();
 
         /*requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,showURL,
@@ -103,32 +144,6 @@ public class inicio extends AppCompatActivity {
             }
         });*/
         //Toast.makeText(this,"tamanio es= "+listita.size(),Toast.LENGTH_LONG).show();
-    }
-    public void verAreas(){
-
-        Cursor cur=db.VerAreas();
-        item=new ArrayList<String>();
-        if (cur.moveToFirst()){
-            do {
-                listita.add(cur.getString(0)+","+cur.getString(1));
-            }while (cur.moveToNext());
-        }
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listita);
-        lista.setAdapter(adapter);
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
-                dato = lista.getItemAtPosition(position).toString();
-                verArea(v);
-            }
-        });
-    };
-    public void verArea(View v){
-        Intent verarea=new Intent(this,mapatec.class);
-        verarea.putExtra("dato", String.valueOf(dato));
-        startActivity(verarea);
     }
 
 }

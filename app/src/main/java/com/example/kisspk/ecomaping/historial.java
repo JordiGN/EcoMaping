@@ -15,6 +15,8 @@ import com.androidplot.xy.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -31,33 +33,42 @@ public class historial extends AppCompatActivity {
         setContentView(R.layout.activity_historial);
         Bundle datos = this.getIntent().getExtras();
         String id = datos.getString("id");
-        Toast.makeText(getApplicationContext(), "El ID es: " + id, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "El ID es: " + id, Toast.LENGTH_LONG).show();
 
         // Inicializamos el objeto XYPlot búscandolo desde el layout:
         mySimpleXYPlot = (XYPlot) findViewById(R.id.mySimpleXYPlot);
 
         // Creamos dos arrays de prueba. En el caso real debemos reemplazar
         // estos datos por los que realmente queremos mostrar
-        Number[] series1Numbers = {1, 8, 5, 2, 7, 4};
-        Number[] series2Numbers = {5, 6, 7, 2, 8, 9};
-        Number[] series3Numbers = {4, 6, 3, 8, 2, 10};
-        Number[] series4Numbers = {6, 9, 2, 2, 5, 7};
-        Number[] series5Numbers = {8, 4, 3, 2, 9, 6};
-
-/*
-        String aux="";
+        ArrayList ListRSU = new ArrayList<Integer>();
+        ArrayList ListAIRE= new ArrayList<Integer>();
+        ArrayList ListAGUA= new ArrayList<Integer>();
+        ArrayList ListELECTRICIDAD = new ArrayList<Integer>();
+        ArrayList ListSONIDO = new ArrayList<Integer>();
         db=new ODBC(this);
-        Cursor cur=db.VerReportes(id);
+        Cursor cur=db.LlenarDATOS(id);//FALTA FECHA
         if (cur.moveToFirst()){
-            */
-/*Toast.makeText(getApplicationContext(), "Entro al cursor " + cur.getString(0),Toast.LENGTH_LONG).show();*//*
-
+            /*Toast.makeText(getApplicationContext(), "Entro al cursor " + cur.getString(0),Toast.LENGTH_LONG).show();*/
             do {
-                aux=aux+cur.getString(0)+",";
+                ListRSU.add(Integer.parseInt(cur.getString(0)));
+                Toast.makeText(getApplicationContext(), "RSU " + cur.getString(0),Toast.LENGTH_LONG).show();
+                ListAIRE.add(Integer.parseInt(cur.getString(1)));
+                ListAGUA.add(Integer.parseInt(cur.getString(2)));
+                ListELECTRICIDAD.add(Integer.parseInt(cur.getString(3)));
+                ListSONIDO.add(Integer.parseInt(cur.getString(4)));
             }while (cur.moveToNext());
         }
-*/
 
+        Number[] series1Numbers = new Number[ListRSU.size()];
+        ListRSU.toArray(series1Numbers);
+        Number[] series2Numbers = new Number[ListAIRE.size()];
+        ListAIRE.toArray(series2Numbers);
+        Number[] series3Numbers = new Number[ListAGUA.size()];
+        ListAGUA.toArray(series3Numbers);
+        Number[] series4Numbers = new Number[ListELECTRICIDAD.size()];
+        ListELECTRICIDAD.toArray(series4Numbers);
+        Number[] series5Numbers = new Number[ListSONIDO.size()];
+        ListSONIDO.toArray(series5Numbers);
 
 
         // Añadimos Línea Número UNO:
@@ -96,23 +107,23 @@ public class historial extends AppCompatActivity {
                 Color.rgb(0, 100, 0),                   // Color del punto
                 Color.rgb(150, 190, 150));// Relleno*/
 
-        LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.RED, Color.GREEN, Color.CYAN, null);
+        LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.BLUE, Color.GREEN, null, null);
         // Una vez definida la serie (datos y estilo), la añadimos al panel
         mySimpleXYPlot.addSeries(series1, series1Format);
 
-        LineAndPointFormatter series2Format = new LineAndPointFormatter(Color.RED, Color.GREEN, Color.CYAN, null);
+        LineAndPointFormatter series2Format = new LineAndPointFormatter(Color.RED, Color.GREEN, null, null);
         // Una vez definida la serie (datos y estilo), la añadimos al panel
         mySimpleXYPlot.addSeries(series2, series2Format);
 
-        LineAndPointFormatter series3Format = new LineAndPointFormatter(Color.RED, Color.GREEN, Color.CYAN, null);
+        LineAndPointFormatter series3Format = new LineAndPointFormatter(Color.YELLOW, Color.GREEN, null, null);
         // Una vez definida la serie (datos y estilo), la añadimos al panel
         mySimpleXYPlot.addSeries(series3, series3Format);
 
-        LineAndPointFormatter series4Format = new LineAndPointFormatter(Color.RED, Color.GREEN, Color.CYAN, null);
+        LineAndPointFormatter series4Format = new LineAndPointFormatter(Color.GREEN, Color.GREEN, null, null);
         // Una vez definida la serie (datos y estilo), la añadimos al panel
         mySimpleXYPlot.addSeries(series4, series4Format);
 
-        LineAndPointFormatter series5Format = new LineAndPointFormatter(Color.RED, Color.GREEN, Color.CYAN, null);
+        LineAndPointFormatter series5Format = new LineAndPointFormatter(Color.CYAN, Color.GREEN, null, null);
         // Una vez definida la serie (datos y estilo), la añadimos al panel
         mySimpleXYPlot.addSeries(series5, series5Format);
     }

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,6 +23,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class mapatec extends FragmentActivity implements OnMapReadyCallback {
 
@@ -61,7 +66,10 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         id=datoarea[0];
         nombre = datoarea[1];
         db=new ODBC(this);
-        Cursor cur=db.VerReportes(id);
+        Date d = Calendar.getInstance().getTime(); // Current time
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Set your date format
+        String fecha = sdf.format(d); // Get Date String according to date format
+        Cursor cur=db.VerReportes(id,fecha);//FALTA FECHA
         if (cur.moveToFirst()){
             /*Toast.makeText(getApplicationContext(), "Entro al cursor " + cur.getString(0),Toast.LENGTH_LONG).show();*/
             do {
@@ -87,6 +95,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
         LatLng uno = new LatLng(Double.parseDouble(ubicacion[0]), Double.parseDouble(ubicacion[1]));
+
 
 
         //Toast.makeText(getApplicationContext(), "Estado Reporte "+color ,Toast.LENGTH_LONG).show();
@@ -132,12 +141,14 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(mapatec.this, inicio.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }
                         })
                         .setNegativeButton("Ver Historial", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                  Intent intent = new Intent(mapatec.this, historial.class);
+                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                  intent.putExtra("id", String.valueOf(id));
                                  startActivity(intent);
                             }
