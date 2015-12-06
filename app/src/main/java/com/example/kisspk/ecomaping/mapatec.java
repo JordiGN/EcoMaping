@@ -50,15 +50,16 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
     String agua;
     String electricidad;
     String sonido;
-    String[] p1="19.263170,-103.724068".split(",");
+
+   /* String[] p1="19.263170,-103.724068".split(",");
     String[] p2="19.263152,-103.723703".split(",");
     String[] p3="19.261874,-103.723708".split(",");
-    String[] p4="19.261971,-103.724105".split(",");
+    String[] p4="19.261971,-103.724105".split(",");*/
 
-    /*String[] p1;
+    String[] p1;
     String[] p2;
     String[] p3;
-    String[] p4;*/
+    String[] p4;
     String color="Color.";
     RequestQueue requestQueue;
 
@@ -81,10 +82,11 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
 
         String showURL="http://webcolima.com/wsecomapping/verreporte.php?idarea="+id;
 
-        /*Cursor cur=db.VerReportes(id);
+        db=new ODBC(this);
+        Cursor cur=db.VerReportes(id);
         item=new ArrayList<String>();
         if (cur.moveToFirst()){
-            Toast.makeText(getApplicationContext(), "Entro al cursor " + cur.getString(cur.getColumnIndex("Id_Area")),Toast.LENGTH_LONG).show();
+            /*Toast.makeText(getApplicationContext(), "Entro al cursor " + cur.getString(0),Toast.LENGTH_LONG).show();*/
             do {
                 //if (cur.getString(cur.getColumnIndex("Id_Area"))==id)
                 //{
@@ -94,7 +96,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
                     p4=cur.getString(4).split(",");
                 //}
             }while (cur.moveToNext());
-        }*/
+        }
         /*Toast.makeText(getApplicationContext(), "URL " + showURL,Toast.LENGTH_LONG).show();
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());

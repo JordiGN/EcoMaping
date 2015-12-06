@@ -92,11 +92,17 @@ public class ODBC extends SQLiteOpenHelper{
         return c;
     }
     public Cursor VerReportes(String idArea){
+        String renglon[]={ID_AREA,P1,P2,P3,P4};
+        Cursor c = this.getReadableDatabase().query(AREA, renglon, ID_AREA+"=?",
+                new String[]{idArea}, null, null, null);
+        return c;
+    }
+   /* public Cursor VerReportes(String idArea){
         String renglon[]={ID_AREA,P1,P2,P3,P4,ESTATUS_REPORTE};
         Cursor c = this.getReadableDatabase().query(AREA+"INNER JOIN"+REPORTE+"ON Id_Area=IdArea", renglon, ID_AREA+"=?",
                 new String[]{idArea}, null, null, null);
         return c;
-    }
+    }*/
    /* public Cursor VerReportes(String idArea){
         String query = "SELECT"+ID_AREA+","+P1+","+P2+","+P3+","+P4+"FROM AREA WHERE ID_AREA=?";
         Cursor cr = this.getReadableDatabase().rawQuery(query, new String[]{idArea});
