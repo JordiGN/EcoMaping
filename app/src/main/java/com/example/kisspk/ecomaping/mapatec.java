@@ -23,16 +23,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
 public class mapatec extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -91,35 +81,22 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
             }while (cur.moveToNext());
         }
     }
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-
-        /*LatLng sydney = new LatLng(-34, 151);*/
-        /*LatLng uno = new LatLng(Double.parseDouble(lat),Double.parseDouble(longi));*/
         LatLng uno = new LatLng(Double.parseDouble(ubicacion[0]), Double.parseDouble(ubicacion[1]));
 
 
-        Toast.makeText(getApplicationContext(), "Estado Reporte "+color ,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Estado Reporte "+color ,Toast.LENGTH_LONG).show();
         Polygon polygon= mMap.addPolygon(new PolygonOptions()
                .add(new LatLng(Double.parseDouble(p1[0]), Double.parseDouble(p1[1])),
                        new LatLng(Double.parseDouble(p2[0]), Double.parseDouble(p2[1])),
                        new LatLng(Double.parseDouble(p3[0]), Double.parseDouble(p3[1])),
                        new LatLng(Double.parseDouble(p4[0]), Double.parseDouble(p4[1]))
                )
-               /*.strokeColor(Color.RED)
-               .fillColor(Color.BLUE)*/);
+        );
 
         switch(color) {
             case "GREEN":
@@ -137,7 +114,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
             default:
         }
 
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno,17);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno,18);
         mMap.animateCamera(yourLocation);
         mMap.addMarker(new MarkerOptions().position(uno).title(nombre)
                         .snippet("Población: " + poblacion)
@@ -146,7 +123,7 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 new AlertDialog.Builder(mapatec.this)
-                        .setTitle("Datos de área")
+                        .setTitle("Datos de área: "+nombre)
                         .setMessage("RSU: " + rsu + "\n" +
                                 "Aire: " + aire + "\n" +
                                 "Agua: " + agua + "\n" +
@@ -160,9 +137,9 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
                         })
                         .setNegativeButton("Ver Historial", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                 /*Intent intent = new Intent(mapatec.this, historial.class);
-                        intent.putExtra("id", String.valueOf(id));
-                        startActivity(intent);*/
+                                 Intent intent = new Intent(mapatec.this, historial.class);
+                                 intent.putExtra("id", String.valueOf(id));
+                                 startActivity(intent);
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
