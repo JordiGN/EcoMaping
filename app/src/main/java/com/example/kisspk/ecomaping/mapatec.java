@@ -79,7 +79,6 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
         nombre = datosevento[1];
         /*Toast.makeText(getApplicationContext(), "Manda " + nombre+" e "+id, Toast.LENGTH_LONG).show();*/
         /*String showURL="http://192.168.1.66:8080/wsecomapping/verreporte.php?idarea="+id;*/
-        Toast.makeText(getApplicationContext(), "Manda " + nombre+" id "+id,Toast.LENGTH_LONG).show();
 
         String showURL="http://webcolima.com/wsecomapping/verreporte.php?idarea="+id;
 
@@ -167,8 +166,8 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
        mMap.addPolygon(new PolygonOptions()
                .add(new LatLng(Double.parseDouble(p1[0]), Double.parseDouble(p1[1])),
                        new LatLng(Double.parseDouble(p2[0]), Double.parseDouble(p2[1])),
-                       new LatLng(Double.parseDouble(p4[0]), Double.parseDouble(p4[1])),
-                       new LatLng(Double.parseDouble(p3[0]), Double.parseDouble(p3[1]))
+                       new LatLng(Double.parseDouble(p3[0]), Double.parseDouble(p3[1])),
+                       new LatLng(Double.parseDouble(p4[0]), Double.parseDouble(p4[1]))
                )
                .strokeColor(Color.RED)
                .fillColor(Color.BLUE));
