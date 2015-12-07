@@ -109,6 +109,7 @@ public class ODBC extends SQLiteOpenHelper{
                 new String[]{idArea, fecha});
         return c;
     }
+
     public Cursor LlenarDATOS(String idArea){
         //String renglon[]={ID_AREA,P1,P2,P3,P4,UBUCACION,ESTATUS_REPORTE};
 

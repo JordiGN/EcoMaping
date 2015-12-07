@@ -58,7 +58,6 @@ public class historial extends AppCompatActivity {
                 ListSONIDO.add(Integer.parseInt(cur.getString(4)));
             }while (cur.moveToNext());
         }
-
         Number[] series1Numbers = new Number[ListRSU.size()];
         ListRSU.toArray(series1Numbers);
         Number[] series2Numbers = new Number[ListAIRE.size()];

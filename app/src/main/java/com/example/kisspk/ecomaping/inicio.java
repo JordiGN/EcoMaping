@@ -37,7 +37,7 @@ public class inicio extends AppCompatActivity {
     ODBC db;
     List<String> item=null;
     RequestQueue requestQueue;
-    String showURL="http://webcolima.com/wsecomapping/verareas.php";
+    String showURL="http://webcolima.com/wsecomapping/nvoReporte.php";
     /*String showURL="http://192.168.1.66:8080/wsecomapping/verareas.php";*/
     /*String showURL="http://192.168.79.187:8080/wsecomapping/verareas.php";*/
     ArrayList<String> listita= new ArrayList<String>();
@@ -48,7 +48,7 @@ public class inicio extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
         lista=(ListView)findViewById(R.id.listView_lista);
         listita.add("Id, Área");
-        db=new ODBC(this);
+
         /*Date d = Calendar.getInstance().getTime(); // Current time
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Set your date format
         String fecha = sdf.format(d); // Get Date String according to date format
@@ -88,8 +88,8 @@ public class inicio extends AppCompatActivity {
     }
     public void Actualizar(View v){
 Toast.makeText(getApplicationContext(), "DATOS AGREGADOS CON ÉXITO",Toast.LENGTH_LONG).show();
-
-        /*requestQueue = Volley.newRequestQueue(getApplicationContext());
+        db=new ODBC(this);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,showURL,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -97,8 +97,8 @@ Toast.makeText(getApplicationContext(), "DATOS AGREGADOS CON ÉXITO",Toast.LENGT
                         try {
                             JSONArray areas = response.getJSONArray("areas");
                             for (int i = 0; i < areas.length(); i++) {
-                                JSONObject area = areas.getJSONObject(i);
-                                String id = area.getString("Id_Area");
+                                JSONObject reporte = areas.getJSONObject(i);
+                                /*String id = area.getString("Id_Area");
                                 String nom = area.getString("Nombre");
                                 String ubi = area.getString("Ubicacion");
                                 String pob = area.getString("Poblacion");
@@ -106,20 +106,21 @@ Toast.makeText(getApplicationContext(), "DATOS AGREGADOS CON ÉXITO",Toast.LENGT
                                 String p2 = area.getString("P2");
                                 String p3 = area.getString("P3");
                                 String p4 = area.getString("P4");
-                                db.InsertArea(nom,ubi,pob,p1,p2,p3,p4);
+                                db.InsertArea(nom,ubi,pob,p1,p2,p3,p4);*/
 
-                                String idArea reporte.getString("IdArea");
-                                String rsu reporte.getString("RSU");
-                                String aire reporte.getString("Aire");
-                                String agua reporte.getString("Agua");
-                                String electricidad reporte.getString("Electricidad");
-                                String sonido reporte.getString("Sonido");
-                                String fecha reporte.getString("Fecha");
-                                String estadoReporte reporte.getString("Estado");
+                                String idArea =reporte.getString("IdArea");
+                                String rsu =reporte.getString("RSU");
+                                String aire =reporte.getString("Aire");
+                                String agua =reporte.getString("Agua");
+                                String electricidad =reporte.getString("Electricidad");
+                                String sonido =reporte.getString("Sonido");
+                                String fecha =reporte.getString("Fecha");
+                                String estadoReporte =reporte.getString("Estado");
 
 
-                                db.InsertReporte(IdArea, Rsu, Aire, Agua, Electricidad, Sonido, Fecha, EstadoReporte);
-                                listita.add(id+","+nom);
+                                db.InsertReporte(Integer.parseInt(idArea), Integer.parseInt(rsu),
+                                        Integer.parseInt(aire), Integer.parseInt(agua), Integer.parseInt(electricidad),
+                                        Integer.parseInt(sonido),fecha, estadoReporte);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -131,19 +132,7 @@ Toast.makeText(getApplicationContext(), "DATOS AGREGADOS CON ÉXITO",Toast.LENGT
                 System.out.append(error.getMessage());
             }
         });
-        requestQueue.add(jsonObjectRequest);*/
-        /*ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listita);
-        lista.setAdapter(adapter);
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterview, View view, int position, long id) {
-                dato = lista.getItemAtPosition(position).toString();
-                verArea(v);
-            }
-        });*/
-        //Toast.makeText(this,"tamanio es= "+listita.size(),Toast.LENGTH_LONG).show();
+        requestQueue.add(jsonObjectRequest);
     }
 
 }
