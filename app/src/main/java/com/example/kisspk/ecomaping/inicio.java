@@ -48,19 +48,11 @@ public class inicio extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
         lista=(ListView)findViewById(R.id.listView_lista);
         listita.add("Id, Área");
-
-        /*Date d = Calendar.getInstance().getTime(); // Current time
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Set your date format
-        String fecha = sdf.format(d); // Get Date String according to date format
-
-        ///String fecha= Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
-        Toast.makeText(this,"La fecha de hoy es: "+fecha,Toast.LENGTH_LONG).show();*/
         verAreas();
-
-
     }
-    public void verAreas(){
 
+    public void verAreas(){
+        db=new ODBC(this);
         Cursor cur=db.VerAreas();
         item=new ArrayList<String>();
         if (cur.moveToFirst()){
@@ -79,7 +71,7 @@ public class inicio extends AppCompatActivity {
                 verArea(v);
             }
         });
-    };
+    }
     public void verArea(View v){
         Intent verarea=new Intent(this,mapatec.class);
         verarea.putExtra("dato", String.valueOf(dato));
@@ -87,17 +79,20 @@ public class inicio extends AppCompatActivity {
         startActivity(verarea);
     }
     public void Actualizar(View v){
-Toast.makeText(getApplicationContext(), "DATOS AGREGADOS CON ÉXITO",Toast.LENGTH_LONG).show();
-        db=new ODBC(this);
+
+        Toast.makeText(getApplicationContext(), "DATOS AGREGADOS CON ÉXITO",Toast.LENGTH_LONG).show();
+        verAreas();
+
+
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,showURL,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray areas = response.getJSONArray("areas");
-                            for (int i = 0; i < areas.length(); i++) {
-                                JSONObject reporte = areas.getJSONObject(i);
+                            JSONArray reportes = response.getJSONArray("reportes");
+                            for (int i = 0; i < reportes.length(); i++) {
+                                JSONObject reporte = reportes.getJSONObject(i);
                                 /*String id = area.getString("Id_Area");
                                 String nom = area.getString("Nombre");
                                 String ubi = area.getString("Ubicacion");

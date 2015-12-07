@@ -122,8 +122,9 @@ public class mapatec extends FragmentActivity implements OnMapReadyCallback {
                 break;
             default:
         }
-
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(uno,18);
+        //mMapap.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.animateCamera(yourLocation);
         mMap.addMarker(new MarkerOptions().position(uno).title(nombre)
                         .snippet("Población: " + poblacion)
